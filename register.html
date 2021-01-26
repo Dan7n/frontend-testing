@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrera</title>
+    <script type="text/javascript">
+        window.onload = (event) => {
+            document.querySelector("#registerForm").addEventListener("submit", (e) => {
+                e.preventDefault();
+                const data = new FormData(e.target);
+                const username = data.get("username");
+                const email = data.get("email");
+                const password = data.get("password");
+                const passwordConfirm = data.get("passwordConfirm");
+
+                if (username.length < 3 || username.length > 12) {
+                    location.href = "?För kort eller för långt användarnamn!";
+
+                } else if(!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email))
+                {
+                    location.href = "?Felformatterad e-postadress!";
+
+                } else if(password != passwordConfirm) {
+                    location.href = "?Lösenorden överensstämmer inte!";
+
+                } else {
+                    location.href = "?<marquee>Anvädaren registrerad! <a href='/'>Logga in här!</a></marquee>";
+                }
+                
+            });
+
+
+            const errorString = window.location.search.substr(1);
+            document.querySelector("#errorMessage").innerHTML = decodeURIComponent(errorString);
+
+        }
+
+    </script>
+</head>
+
+<body bgcolor="gray">
+    <center>
+        <h1>Registrera!</h1>
+        <h3 id="errorMessage"></h3>
+        <form id="registerForm">
+            <input type="text" name="username" placeholder="Användarnamn" /><br />
+            <input type="text" name="email" placeholder="E-post" /><br />
+            <input type="password" name="password" placeholder="Lösenord" /><br />
+            <input type="password" name="passwordConfirm" placeholder="Lösenord" /><br />
+            <input type="submit" value="Register" /><br />
+        </form>
+    </center>
+</body>
+
+</html>

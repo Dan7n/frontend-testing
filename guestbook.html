@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        window.onload = (event) => {
+            document.querySelector("#guestbookForm").addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const entry = document.querySelector("#guestbookInput").value;
+                if(entry.length < 3) {
+                    document.querySelector("#errorMessage").innerHTML = "För kort meddelande!";
+                    return;
+                }
+                const entries = (localStorage.getItem("guestbook") ? JSON.parse(localStorage.getItem("guestbook")) : []);
+                entries.push(entry);
+                localStorage.setItem("guestbook", JSON.stringify(entries));
+
+                location.reload();
+            })
+
+
+            const entries = JSON.parse(localStorage.getItem("guestbook"));
+            const entriesDiv = document.querySelector("#entries")
+            
+            entries.forEach((entry, i) => {
+                entriesDiv.innerHTML = entriesDiv.innerHTML + "<p>"+entry+"<br /><a style='color:red;' onClick='removeEntry("+i+");'>Ta bort</a></p><hr/>";
+            })
+        }
+
+        function removeEntry(i) {
+            const entries = JSON.parse(localStorage.getItem("guestbook"));
+            entries.splice(i,1);
+            localStorage.setItem("guestbook", JSON.stringify(entries));
+            location.reload();
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Gästbok!</h1>
+    <h3><a href="start.html">&#8592; Tillbaka</a></h3>
+    <center>
+        <form id="guestbookForm">
+            <textarea placeholder="Skriv ett inlägg..." rows="5" cols="50" id="guestbookInput"></textarea>
+            <input type="submit" value="Posta" /><br />
+            <h3 id="errorMessage"></h3>
+        </form>
+<div id="entries">
+
+
+</div>
+    </center>
+</body>
+
+</html>
