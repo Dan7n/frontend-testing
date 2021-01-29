@@ -26,7 +26,7 @@
             const entries = JSON.parse(localStorage.getItem("guestbook"));
             const entriesDiv = document.querySelector("#entries")
             
-            entries.forEach((entry, i) => {
+            entries && entries.forEach((entry, i) => {
                 entriesDiv.innerHTML = entriesDiv.innerHTML + "<p>"+entry+"<br /><a style='color:red;' onClick='removeEntry("+i+");'>Ta bort</a></p><hr/>";
             })
         }
